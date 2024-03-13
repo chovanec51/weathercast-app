@@ -1,18 +1,30 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { MaterialsModule } from './materials.module';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { WeathercastTableComponent } from './weathercast-table/weathercast-table.component';
+import { WeathercastChartComponent } from './weathercast-chart/weathercast-chart.component';
+import { WeathercastCalculatorComponent } from './weathercast-calculator/weathercast-calculator.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    WeathercastTableComponent,
+    WeathercastChartComponent,
+    WeathercastCalculatorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
