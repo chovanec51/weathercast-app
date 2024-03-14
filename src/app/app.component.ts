@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavLink } from './model/nav-link.model';
+import { NavLink } from './shared/model/nav-link.model';
 import { WeathercastDataService } from './shared/services/weathercast-data.service';
 
 @Component({
@@ -19,6 +19,6 @@ export class AppComponent implements OnInit {
       new NavLink(2, '/weathercast-calculator', 'Heat Index Calculator')
     ];
 
-    this.dataService.fetchAllData();
+    this.dataService.fetchAllData(0);
   }
 }

@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterRenderRef, AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WeathercastDataService } from '../shared/services/weathercast-data.service';
-import { WeathercastDataRow } from '../model/weathercast-data-row.model';
-import { ChartData } from '../model/chart-data.model';
-import { ChartOptions } from '../model/chart-options.model';
+import { WeathercastDataRow } from '../shared/model/weathercast-data-row.model';
+import { ChartData } from '../shared/model/chart-data.model';
+import { ChartOptions } from '../shared/model/chart-options.model';
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -13,28 +13,37 @@ import {
   ApexStroke,
   ApexGrid
 } from "ng-apexcharts";
-import { WeathercastData } from '../model/weathercast-data.model';
+import { WeathercastData } from '../shared/model/weathercast-data.model';
 import { LOCALE, TIME_FORMAT } from '../shared/constants';
+import * as ApexCharts from 'apexcharts';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-weathercast-chart',
   templateUrl: './weathercast-chart.component.html',
   styleUrls: ['./weathercast-chart.component.css']
 })
-export class WeathercastChartComponent implements OnInit {
+export class WeathercastChartComponent implements OnInit, OnDestroy {
   chartData: ChartData = new ChartData([], []);
-  @ViewChild("chart") chart!: ChartComponent;
-  public chartOptions: Partial<ChartOptions> | null = null;
+  chart!: ApexCharts;
+  chartOptions: Partial<ChartOptions> | null = null;
+  private weathercastDataSub!: Subscription;
 
   constructor(private dataService: WeathercastDataService){}
 
   ngOnInit(): void {
-      this.dataService.weathercastDataSubject.subscribe({
-        next: (responseData: WeathercastData) => {
-          this.updateChartData(responseData.rows);
-          this.setChartOptions();
+    this.dataService.setSort();
+    this.weathercastDataSub = this.dataService.weathercastDataSubject.subscribe({
+      next: (responseData: WeathercastData) => {
+        if (responseData.totalCount === 0) {
+          return;
         }
-      });
+        this.updateChartData(responseData.rows);
+        this.setChartOptions();
+        this.chart = new ApexCharts(document.getElementById('chart'), this.chartOptions);
+        this.chart.render();
+      }
+    });
   }
 
   private updateChartData(rows: WeathercastDataRow[]) {
@@ -63,11 +72,12 @@ export class WeathercastChartComponent implements OnInit {
       series: [
         {
           name: "Temperature",
-          data: this.chartData.data
+          data: this.chartData.data,
+          color: "#673AB7"
         }
       ],
       chart: {
-        height: 350,
+        height: 600,
         type: "line",
         zoom: {
           enabled: false
@@ -100,5 +110,9 @@ export class WeathercastChartComponent implements OnInit {
         categories: this.chartData.categories
       }
     };
+  }
+
+  ngOnDestroy(): void {
+      this.weathercastDataSub.unsubscribe();
   }
 }

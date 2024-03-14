@@ -1,62 +1,79 @@
-<form [formGroup]="form" (ngSubmit)="calculateHeatIndex()">
-    <mat-form-field>
-        <mat-label>Enter temperature</mat-label>
-        <input matInput
-            formControlName="temperature" 
-            type="number"
-            (change)="temperatureFullValue = temperature.value">
-        <mat-error *ngIf="temperature.touched && temperature.invalid && temperature.errors != null">
-            <p *ngIf="temperature.errors['required'] === true">
-                Temperature is <strong>required</strong>.
-            </p>
-            <p *ngIf="temperature.errors['invalid'] === 'outsideOfRange' && !temperature.errors['required']">
-                Please enter a value ranging from 
-                <strong>{{minTemperature | number : '.2-2'}}</strong> to 
-                <strong>{{maxTemperature | number : '.2-2'}}°{{unit.value}}</strong>.
-            </p>
-        </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Unit of temperature</mat-label>
-        <mat-select 
-            formControlName="unit" 
-            value="C" 
-            required
-            (valueChange)="convertDisplayedTemperature()">
-                <mat-option value="C">°C</mat-option>
-                <mat-option value="F">°F</mat-option>
-        </mat-select>
-        <mat-error *ngIf="humidity.touched && humidity.invalid && humidity.errors != null">
-            <p *ngIf="humidity.errors['required'] === true">
-                Unit is <strong>required</strong>.
-            </p>
-        </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Humidity</mat-label>
-        <input matInput
-            formControlName="humidity"
-            min="0" 
-            type="number">
-        <span matTextSuffix>%</span>
-        <mat-error *ngIf="humidity.touched && humidity.invalid && humidity.errors != null">
-            <p *ngIf="humidity.errors != null && humidity.errors['required'] === true">
-                Humidity is <strong>required</strong>.
-            </p>
-            <p *ngIf="humidity.errors['invalid'] === 'outsideOfRange'">
-                Please enter a value ranging from <strong>{{minHumidity}}</strong> to <strong>{{maxHumidity + '%'}}</strong>.
-            </p>
-        </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Heat Index</mat-label>
-        <input matInput
-            formControlName="heatIndex" 
-            type="number" 
-            readonly>
-    </mat-form-field>
-    <button mat-flat-button 
-        color="primary" 
-        type="submit" 
-        [disabled]="form.invalid">Calculate</button>
-</form>
+
+<div class="calculator">
+    <h1 class="containerHeader">Calculator</h1>
+    <form [formGroup]="form" (ngSubmit)="calculateHeatIndex()" class="borderContainer">
+        <mat-form-field class="input">
+            <mat-label>Enter temperature</mat-label>
+            <input matInput
+                formControlName="temperature" 
+                type="number"
+                (change)="temperatureFullValue = temperature.value">
+            <mat-error *ngIf="temperature.touched && temperature.invalid && temperature.errors != null">
+                <p *ngIf="temperature.errors['required'] === true">
+                    Temperature is <strong>required</strong>.
+                </p>
+                <p *ngIf="temperature.errors['min'] && !temperature.errors['required']">
+                    The lowest valid value is <strong>{{minTemperature | number : '.2-2'}}°{{unit.value}}</strong>.
+                </p>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="unit">
+            <mat-label>Unit</mat-label>
+            <mat-select 
+                formControlName="unit" 
+                value="C" 
+                required
+                (valueChange)="convertDisplayedTemperature()">
+                    <mat-option value="C">°C</mat-option>
+                    <mat-option value="F">°F</mat-option>
+            </mat-select>
+            <mat-error *ngIf="humidity.touched && humidity.invalid && humidity.errors != null">
+                <p *ngIf="humidity.errors['required'] === true">
+                    Unit is <strong>required</strong>.
+                </p>
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="input">
+            <mat-label>Humidity</mat-label>
+            <input matInput
+                formControlName="humidity"
+                min="0" 
+                type="number">
+            <span matTextSuffix>%</span>
+            <mat-error *ngIf="humidity.touched && humidity.invalid && humidity.errors != null">
+                <p *ngIf="humidity.errors['required'] === true">
+                    Humidity is <strong>required</strong>.
+                </p>
+                <p *ngIf="humidity.errors['invalid'] === 'outsideOfRange'">
+                    Please enter a value ranging from <strong>{{minHumidity}}</strong> to <strong>{{maxHumidity + '%'}}</strong>.
+                </p>
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <button mat-flat-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="form.invalid">Calculate<mat-icon>play_arrow</mat-icon></button>
+    </form>
+    <br>
+    <div class="result" *ngIf="heatIndexValue">
+        <h2 class="containerHeader">Result</h2>
+        <div class="borderContainer">
+            <p>Calculated heat Index Temperature: <strong>{{heatIndexValue}}°{{unit.value}}</strong>.</p>
+        </div>
+    </div>
+</div>
+
+<div class="history">
+    <div *ngIf="heatIndexHistory && heatIndexHistory.length > 0">
+        <h2 class="containerHeader">History</h2>
+        <div class="borderContainer">
+            <h4>Previously calculated values:</h4>
+            <ul>
+                <li *ngFor="let historyValue of heatIndexHistory">{{historyValue}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+

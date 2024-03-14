@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { fetchWeatherApi } from 'openmeteo';
 import { BehaviorSubject } from 'rxjs';
-import { WeathercastDataRow } from 'src/app/model/weathercast-data-row.model';
-import { WeathercastData } from 'src/app/model/weathercast-data.model';
+import { WeathercastDataRow } from 'src/app/shared/model/weathercast-data-row.model';
+import { WeathercastData } from 'src/app/shared/model/weathercast-data.model';
+import { WeathercastParams } from '../model/weathercast-params.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +19,20 @@ export class WeathercastDataService {
   weathercastDataSubject = new BehaviorSubject<WeathercastData>(this.weathercastData);
   
 
-  private _params = {
+  private _params: WeathercastParams = {
     "latitude": 51.5085,
     "longitude": -0.1257,
     "hourly": ["temperature_2m", "relative_humidity_2m", "precipitation_probability", "precipitation", "weather_code", "surface_pressure", "wind_speed_10m"],
-    "timezone": "Europe/London",
-    "past_days": 7
+    "timezone": "Europe/London"
   };
   private _url = "https://api.open-meteo.com/v1/forecast";
 
-  public async fetchAllData(): Promise<void> {
-    const responses = await fetchWeatherApi(this._url, this._params);
+  async fetchAllData(numOfPastDays: number): Promise<void> {
+    var params = {...this._params};
+    if (numOfPastDays > 0) {
+      params.past_days = numOfPastDays;
+    }
+    const responses = await fetchWeatherApi(this._url, params);
 
     // Helper function to form time ranges
     const range = (start: number, stop: number, step: number) =>
@@ -109,7 +113,7 @@ export class WeathercastDataService {
     this._currentPage = pageNumber;
   }
 
-  setSort(sortState: Sort) {
+  setSort(sortState?: Sort) {
     if (!sortState || !sortState.direction) {
       this._currentSort = this._defaultSort;
     }

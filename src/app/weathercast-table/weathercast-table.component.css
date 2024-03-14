@@ -5,3 +5,21 @@ table {
   th.mat-sort-header-sorted {
     color: black;
   }
+
+  .pastDaysContainer {
+    border: 4px solid #673AB7;
+    border-radius: 20px;
+    padding: 20px;
+    width: 50%;
+    height: auto;
+  }
+
+  .pastDaysContainer mat-form-field {
+    width: auto;
+    margin-right: 15px;
+  }
+
+  .pastDaysContainer mat-form-field {
+    width: auto;
+    margin-right: 15px;
+  }

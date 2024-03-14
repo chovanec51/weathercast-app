@@ -1,0 +1,58 @@
+.heatIndexContainer {
+    font-family: 'Arial';
+}
+
+.calculator {
+    width: 52%;
+    float: left;
+}
+
+.history {
+    float: right;
+    width: 40%;
+    margin-right: 40px;
+}
+
+.containerHeader {
+    margin-bottom: 0px;
+    margin-left: 20px;
+    color:#673AB7;
+    font-weight: bold;
+}
+
+.result {
+    font-size: 1.1rem;
+}
+
+.result p {
+    margin-bottom: 0px;
+}
+
+.borderContainer {
+    width: 100%;
+    padding: 1.5rem;
+    background-color: #444;
+    border-radius: 20px;
+    color:#fff;
+}
+
+.borderContainer li {
+    margin: 10px 0;
+}
+
+.borderContainer h4 {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+mat-form-field {
+    margin-bottom: 60px;
+}
+
+mat-form-field.unit {
+    width: 100px;
+}
+
+mat-form-field.input {
+    width: 200px;
+}

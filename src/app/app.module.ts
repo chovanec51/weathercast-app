@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialsModule } from './materials.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { WeathercastTableComponent } from './weathercast-table/weathercast-table.component';
@@ -26,7 +26,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     BrowserAnimationsModule,
     MaterialsModule,
     ReactiveFormsModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
