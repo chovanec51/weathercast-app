@@ -1,27 +1,19 @@
 # WeathercastApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2.
+This project was developed using Angular version 17.
 
-## Development server
+The project is structured into 3 NgModules:
+	- AppModule (root)
+	- RoutingModule	- takes care of path managment
+	- MaterialsModule - imports Angular Material Modules to keep root module cleaner
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Table is fetching data from https://open-meteo.com/en/docs. The data consists of weathercast info of the current day and 6 next days. There is an option to add data of past days.
+Linear graph uses data displayed on the current page of the table.
 
-## Code scaffolding
+Bussiness logic of fetching and managing weathercast data is managed by WeathercastDataService class.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Calculator is set up according to the assignment. One small addition is the restricted range when setting humidity (0 - 100).
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
