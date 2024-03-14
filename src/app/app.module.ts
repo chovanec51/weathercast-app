@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { WeathercastTableComponent } from './weathercast-table/weathercast-table.component';
 import { WeathercastChartComponent } from './weathercast-chart/weathercast-chart.component';
 import { WeathercastCalculatorComponent } from './weathercast-calculator/weathercast-calculator.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { WeathercastCalculatorComponent } from './weathercast-calculator/weather
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgApexchartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
